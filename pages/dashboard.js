@@ -2,11 +2,13 @@ import CustomerLayout from "../app/components/customerLayout";
 import TransfersTable from "../app/components/table";
 import Transfers from "../app/transfers-data";
 
-export default function CustomerPage(props) {
+export default function Dashboard(props) {
   return (
-    <CustomerLayout>
-      <h4>Your transactions</h4>
+    <>
+      <h3>PAYMENT HISTORY</h3>
       <TransfersTable transfers={Transfers} />
-    </CustomerLayout>
+    </>
   );
 }
+
+Dashboard.Layout = CustomerLayout;
