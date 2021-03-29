@@ -12,7 +12,7 @@ export default function Index() {
       <>
         <div>Welcome {user.name}!</div>
         <div>
-          <a href="/customer">View profile</a>
+          <a href="/dashboard">View profile</a>
         </div>
         <div>
           <a href="/api/auth/logout">Logout</a>

@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 import { UserProvider } from "@auth0/nextjs-auth0";
 
@@ -5,6 +6,8 @@ import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function MyApp({ Component, pageProps }) {
+  const Layout = Component.Layout ? Component.Layout : React.Fragment;
+
   return (
     <>
       <Head>
@@ -24,7 +27,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <UserProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </UserProvider>
     </>
   );
