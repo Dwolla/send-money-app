@@ -1,46 +1,56 @@
 import { useState } from "react";
-import CustomerLayout from "../app/components/customerLayout";
-import AddBank from "../app/components/add-bank";
+import useSWR from "swr";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
+
+import AccountInformation from "../app/components/AccountInformation";
+import AddBank from "../app/components/AddBank";
+import BankDetails from "../app/components/BankDetails";
+import CustomerLayout from "../app/components/CustomerLayout";
+import fetcher from "../app/fetcher";
 
 const spacingStyle = {
   margin: "30px 0",
 };
 
 export default function AccountSettings(props) {
-  const [bankExists, setBankExists] = useState(false); // Check API: Set to true if bank exists
+  const [isAdmin, setIsAdmin] = useState(false); // Set Admin based on session
+  const [bankExists, setBankExists] = useState(checkBank());
+
+  //Retrieve accountInformation and bankDetails to send as props to the components
+  //Retrieving bank details for a Customer
+  async function checkBank() {
+    const { data, error } = await useSWR(
+      "/api/get-customer-funding-sources",
+      fetcher
+    );
+    if (error || !data) {
+      console.log(data);
+      setBankExists(null);
+    } else {
+      const bankDetails =
+        data.customerFundingSources._embedded["funding-sources"][0];
+      console.log(bankDetails);
+      setBankExists(bankDetails);
+    }
+  }
 
   return (
     <>
       <h3>SETTINGS</h3>
       <div style={spacingStyle}>
         <h5>Account information</h5>
-        <ListGroup variant="flush">
-          <ListGroup.Item variant="light">NAME: some_name</ListGroup.Item>
-          <ListGroup.Item variant="light">EMAIL: some_email</ListGroup.Item>
-        </ListGroup>
+        <AccountInformation accountInformation />
       </div>
       <div style={spacingStyle}>
         <h5>Payment information</h5>
-        {bankExists && (
-          <ListGroup variant="flush">
-            <ListGroup.Item variant="light">
-              BANK NAME: some_name
-            </ListGroup.Item>
-            <ListGroup.Item variant="light">STATUS: some_status</ListGroup.Item>
-            <ListGroup.Item variant="light">TYPE: some_type</ListGroup.Item>
-          </ListGroup>
-        )}
-        <div style={spacingStyle}>
-          {bankExists ? (
-            <Button size="lg" variant="danger">
-              Remove Bank
-            </Button>
-          ) : (
+        {bankExists ? (
+          <BankDetails {...bankExists} />
+        ) : (
+          <div style={spacingStyle}>
             <AddBank />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
