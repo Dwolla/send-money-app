@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import AccountInformation from "../app/components/AccountInformation";
 import AddBank from "../app/components/AddBank";
 import BankDetails from "../app/components/BankDetails";
+import CustomerInformation from "../app/components/CustomerInformation";
 import CustomerLayout from "../app/components/CustomerLayout";
 import fetcher from "../app/fetcher";
 
@@ -14,24 +15,35 @@ const spacingStyle = {
 };
 
 export default function AccountSettings(props) {
-  const [isAdmin, setIsAdmin] = useState(false); // Set Admin based on session
+  const [isAdmin, setIsAdmin] = useState(true); // Set Admin based on session
   const [bankExists, setBankExists] = useState(checkBank());
 
-  //Retrieve accountInformation and bankDetails to send as props to the components
   //Retrieving bank details for a Customer
   async function checkBank() {
-    const { data, error } = await useSWR(
-      "/api/get-customer-funding-sources",
-      fetcher
-    );
-    if (error || !data) {
-      console.log(data);
-      setBankExists(null);
+    if (isAdmin === false) {
+      const { data, error } = await useSWR(
+        "/api/get-customer-funding-sources",
+        fetcher
+      );
+      if (error || !data) {
+        setBankExists(null);
+      } else {
+        const bankDetails =
+          data.customerFundingSources._embedded["funding-sources"][0];
+        setBankExists(bankDetails);
+      }
     } else {
-      const bankDetails =
-        data.customerFundingSources._embedded["funding-sources"][0];
-      console.log(bankDetails);
-      setBankExists(bankDetails);
+      const { data, error } = await useSWR(
+        "/api/get-account-funding-sources",
+        fetcher
+      );
+      if (error || !data) {
+        setBankExists(null);
+      } else {
+        const bankDetails =
+          data.accountFundingSources._embedded["funding-sources"][0];
+        setBankExists(bankDetails);
+      }
     }
   }
 
@@ -40,7 +52,7 @@ export default function AccountSettings(props) {
       <h3>SETTINGS</h3>
       <div style={spacingStyle}>
         <h5>Account information</h5>
-        <AccountInformation accountInformation />
+        {isAdmin === true ? <AccountInformation /> : <CustomerInformation />}
       </div>
       <div style={spacingStyle}>
         <h5>Payment information</h5>

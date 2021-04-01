@@ -1,24 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useSWR from "swr";
+import fetcher from "../../app/fetcher";
 import ListGroup from "react-bootstrap/ListGroup";
 
 export default function AccountInformation(props) {
-  const [isAdmin, setIsAdmin] = useState(props.isAdmin); // Needs to be set based on context
+  const res = useSWR("/api/get-account-details", fetcher, {
+    refreshInterval: 60000,
+  }).data;
+  if (!res) return <p>Loading...</p>;
 
   return (
-    <ListGroup variant="flush">
-      <ListGroup.Item variant="light">
-        NAME: {props.firstName} {props.lastName}
-      </ListGroup.Item>
-      {isAdmin === true ? (
-        <>
-          <ListGroup.Item variant="light">
-            COMPANY NAME: {props.name}
-          </ListGroup.Item>
-          <ListGroup.Item variant="light">EMAIL: {props.email}</ListGroup.Item>
-        </>
-      ) : (
-        <ListGroup.Item variant="light">EMAIL: {props.email}</ListGroup.Item>
-      )}
-    </ListGroup>
+    <>
+      <ListGroup variant="flush">
+        <ListGroup.Item variant="light">
+          COMPANY NAME: {res.accountDetails.name}
+        </ListGroup.Item>
+        <ListGroup.Item variant="light">EMAIL: {res.email}</ListGroup.Item>
+      </ListGroup>
+    </>
   );
 }

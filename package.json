@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^1.2.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "dwolla-v2": "^3.2.0",
     "moment": "^2.29.1",

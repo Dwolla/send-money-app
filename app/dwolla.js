@@ -21,7 +21,9 @@ const getAccountDetails = async () => {
 const getAccountFundingSources = async () => {
   var accountUrl = await getRoot();
 
-  const res = await dwolla.get(`${accountUrl}/funding-sources`);
+  const res = await dwolla.get(`${accountUrl}/funding-sources`, {
+    removed: false,
+  });
   return res.body;
 };
 
@@ -30,23 +32,33 @@ const getCustomers = async () => {
   return res.body;
 };
 
-const getCustomerDetails = async () => {
-  var customerUrl = "http://api-sandbox.dwolla.com/customers/{id}"; // temporary static data. This will need to be set based on the user logged in to a session
+const getCustomerDetails = async (id) => {
+  var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; // temporary static data. This will need to be set based on the user logged in to a session
   const res = await dwolla.get(customerUrl);
   return res.body;
 };
 
-const getCustomerFundingSources = async () => {
-  var customerUrl = "http://api-sandbox.dwolla.com/customers/{id}"; // temporary static data. This will need to be set based on the user logged in to a session
+const getCustomerFundingSources = async (id) => {
+  var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; // temporary static data. This will need to be set based on the user logged in to a session
 
-  const res = await dwolla.get(`${customerUrl}/funding-sources`);
+  const res = await dwolla.get(`${customerUrl}/funding-sources`, {
+    removed: false,
+  });
   return res.body;
 };
 
-const getCustomerTransfers = async () => {
-  var customerUrl = "http://api-sandbox.dwolla.com/customers/{id}"; // temporary static data. This will need to be set based on the user logged in to a session
+const getCustomerTransfers = async (id) => {
+  var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; // temporary static data. This will need to be set based on the user logged in to a session
   const res = await dwolla.get(`${customerUrl}/transfers`);
   return res.body;
+};
+
+const removeBank = async (id) => {
+  var fundingSourceUrl = `https://api-sandbox.dwolla.com/funding-sources/${id}`;
+  var requestBody = {
+    removed: true,
+  };
+  const res = await dwolla.post(fundingSourceUrl, requestBody);
 };
 
 export default dwolla;
@@ -57,4 +69,5 @@ export {
   getCustomerTransfers,
   getCustomerDetails,
   getCustomerFundingSources,
+  removeBank,
 };

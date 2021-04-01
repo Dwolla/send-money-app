@@ -1,3 +1,5 @@
+import { useState } from "react";
+import axios from "axios";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 
@@ -6,7 +8,13 @@ const spacingStyle = {
 };
 
 export default function BankDetails(props) {
-  console.log(props);
+  const [shouldFetch, setShouldFetch] = useState(false);
+  function removeBank() {
+    axios
+      .post(`/api/remove-bank/${props.id}`)
+      .then((response) => console.log(response));
+  }
+
   return (
     <>
       <ListGroup variant="flush">
@@ -20,7 +28,7 @@ export default function BankDetails(props) {
       </ListGroup>
       <div style={spacingStyle}>
         {/* The Remove button will call a function that calls the API to remove the bank */}
-        <Button size="lg" variant="danger">
+        <Button size="lg" variant="danger" onClick={removeBank}>
           Remove Bank
         </Button>
       </div>
