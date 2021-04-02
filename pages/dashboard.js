@@ -1,4 +1,4 @@
-import CustomerLayout from "../app/components/CustomerLayout";
+import CustomerLayout from "../app/components/Customer/CustomerLayout";
 import TransfersTable from "../app/components/TransfersTable";
 import Button from "react-bootstrap/Button";
 
@@ -15,6 +15,7 @@ export default function Dashboard(props) {
   );
 }
 
+// Fetch customer's transfers at the time of page load
 export const getStaticProps = async () => {
   const data = await getCustomerTransfers();
 

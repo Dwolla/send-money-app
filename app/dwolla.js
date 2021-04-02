@@ -1,4 +1,6 @@
 import { Client } from "dwolla-v2";
+// Set CustomerUrl here
+// const customerUrl = "";
 
 const dwolla = new Client({
   key: process.env.DWOLLA_APP_KEY,
@@ -32,14 +34,15 @@ const getCustomers = async () => {
   return res.body;
 };
 
-const getCustomerDetails = async (id) => {
-  var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; // temporary static data. This will need to be set based on the user logged in to a session
+const getCustomerDetails = async () => {
+  // var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; We can set the CustomerURL based on the id passed in as props or use the global customerUrl defined at the top
+
   const res = await dwolla.get(customerUrl);
   return res.body;
 };
 
-const getCustomerFundingSources = async (id) => {
-  var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; // temporary static data. This will need to be set based on the user logged in to a session
+const getCustomerFundingSources = async () => {
+  // var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; We can set the CustomerURL based on the id passed in as props or use the global customerUrl defined at the top
 
   const res = await dwolla.get(`${customerUrl}/funding-sources`, {
     removed: false,
@@ -47,18 +50,24 @@ const getCustomerFundingSources = async (id) => {
   return res.body;
 };
 
-const getCustomerTransfers = async (id) => {
-  var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; // temporary static data. This will need to be set based on the user logged in to a session
+const getCustomerTransfers = async () => {
+  // var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; We can set the CustomerURL based on the id passed in as props or use the global customerUrl defined at the top
   const res = await dwolla.get(`${customerUrl}/transfers`);
   return res.body;
 };
 
 const removeBank = async (id) => {
-  var fundingSourceUrl = `https://api-sandbox.dwolla.com/funding-sources/${id}`;
+  var fundingSourceUrl = `https://api-sandbox.dwolla.com/funding-sources/${id}`; // Accepting {id} as props to remove a funding-source
   var requestBody = {
     removed: true,
   };
   const res = await dwolla.post(fundingSourceUrl, requestBody);
+};
+
+const createFundingSourcesToken = async () => {
+  // var customerUrl = `http://api-sandbox.dwolla.com/customers/${id}`; We can set the CustomerURL based on the id passed in as props or use the global customerUrl defined at the top
+  var res = await dwolla.post(`${customerUrl}/funding-sources-token`);
+  return res.body.token;
 };
 
 export default dwolla;
@@ -70,4 +79,5 @@ export {
   getCustomerDetails,
   getCustomerFundingSources,
   removeBank,
+  createFundingSourcesToken,
 };

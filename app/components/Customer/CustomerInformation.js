@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr";
-import fetcher from "../../app/fetcher";
+import fetcher from "../../fetcher";
 import ListGroup from "react-bootstrap/ListGroup";
 
 export default function CustomerInformation(props) {
