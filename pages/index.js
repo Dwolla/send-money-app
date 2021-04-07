@@ -5,6 +5,7 @@ import Image from "next/image";
 import Header from "./header.js";
 import Link from "next/link";
 
+
 export default function Index() {
   const { user, error, isLoading } = useUser();
 
@@ -13,8 +14,22 @@ export default function Index() {
   if (error) return <div>{error.message}</div>;
 
   if (user) {
-    return (
-      <>
+    // Hard code dwolla master account email for now
+    if(user.name === ""){
+      return (
+        <>
+          <div>Welcome {user.name}!</div>
+          <div>
+            <a href="/admin">View profile</a>
+          </div>
+          <div>
+            <a href="/api/auth/logout">Logout</a>
+          </div>
+        </>
+      );
+    } else {
+      return(
+        <>
         <div>Welcome {user.name}!</div>
         <div>
           <a href="/dashboard">View profile</a>
@@ -23,7 +38,10 @@ export default function Index() {
           <a href="/api/auth/logout">Logout</a>
         </div>
       </>
-    );
+
+      )
+    }
+
   }
 
   return (
@@ -53,3 +71,4 @@ export default function Index() {
     </>
   );
 }
+
