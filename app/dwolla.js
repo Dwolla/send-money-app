@@ -5,7 +5,7 @@ import { Client } from "dwolla-v2";
 const dwolla = new Client({
   key: process.env.DWOLLA_APP_KEY,
   secret: process.env.DWOLLA_APP_SECRET,
-  environment: process.env.DWOLLA_APP_ENVIRONMENT,
+  environment: process.env.DWOLLA_APP_ENV,
 });
 
 const getRoot = async () => {
