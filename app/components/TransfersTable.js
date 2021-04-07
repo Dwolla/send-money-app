@@ -1,3 +1,4 @@
+import Moment from "react-moment";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 
@@ -22,8 +23,12 @@ export default function TransfersTable({ transfers }) {
           {transfers.map((transfer, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>{transfer.date}</td>
-              <td>${transfer.amount}</td>
+              <td>
+                <Moment local format="MMM DD YYYY LT">
+                  {transfer.created}
+                </Moment>
+              </td>
+              <td>{transfer.amount.value}</td>
               <td>{transfer.status}</td>
             </tr>
           ))}

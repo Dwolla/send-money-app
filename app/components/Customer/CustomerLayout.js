@@ -5,7 +5,6 @@ const layoutStyle = {
   display: "flex",
   height: "100%",
   width: "100%",
-  backgroundColor: "#009910",
 };
 
 const contentStyle = {
@@ -47,7 +46,12 @@ export default function CustomerLayout(props) {
       <Navbar style={navbarStyle}>
         <Nav className="flex-column" style={navStyle}>
           <div style={brandStyle}>Send Money App</div>
-          <Nav.Link eventKey="settings">Profile settings</Nav.Link>
+          <Nav.Link eventKey="dashboard" href="/dashboard">
+            Dashboard
+          </Nav.Link>
+          <Nav.Link eventKey="settings" href="/settings">
+            Settings
+          </Nav.Link>
           <Nav.Link eventKey="log-out" href="/api/auth/logout">
             Logout
           </Nav.Link>
