@@ -1,9 +1,10 @@
-import { useUser } from "@auth0/nextjs-auth0";
-import styles from "./Index.module.css";
-import Head from "next/head";
-import Image from "next/image";
-import Header from "./header.js";
-import Link from "next/link";
+/* eslint-disable react/button-has-type */
+import { useUser } from '@auth0/nextjs-auth0';
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
+import Header from './header';
+import styles from './Index.module.css';
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
@@ -26,19 +27,18 @@ export default function Index() {
           </div>
         </>
       );
-    } else {
-      return (
-        <>
-          <div>Welcome {user.name}!</div>
-          <div>
-            <a href="/dashboard">View profile</a>
-          </div>
-          <div>
-            <a href="/api/auth/logout">Logout</a>
-          </div>
-        </>
-      );
     }
+    return (
+      <>
+        <div>Welcome {user.name}!</div>
+        <div>
+          <a href="/dashboard">View profile</a>
+        </div>
+        <div>
+          <a href="/api/auth/logout">Logout</a>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -48,7 +48,7 @@ export default function Index() {
         <script
           type="text/javascript"
           src="https://cdn.dwolla.com/v2/dwolla-web.js"
-        ></script>
+        />
       </Head>
       <Header />
       <div className={styles.landingBlock}>

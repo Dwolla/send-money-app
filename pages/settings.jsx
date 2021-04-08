@@ -1,32 +1,31 @@
-import { useState } from "react";
-import useSWR from "swr";
-import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
+import { useState } from 'react';
+import useSWR from 'swr';
 
-import AddBank from "../app/components/AddBank";
-import BankDetails from "../app/components/BankDetails";
-import CustomerInformation from "../app/components/Customer/CustomerInformation";
-import CustomerLayout from "../app/components/Customer/CustomerLayout";
-import fetcher from "../app/fetcher";
+import AddBank from '../app/components/AddBank';
+import BankDetails from '../app/components/BankDetails';
+import CustomerInformation from '../app/components/Customer/CustomerInformation';
+import CustomerLayout from '../app/components/Customer/CustomerLayout';
+import fetcher from '../app/fetcher';
 
 const spacingStyle = {
-  margin: "30px 0",
+  margin: '30px 0',
 };
 
 export default function CustomerSettings() {
+  // eslint-disable-next-line no-use-before-define
   const [bankExists, setBankExists] = useState(checkBank());
 
-  //Retrieving bank details for a Customer
+  // Retrieving bank details for a Customer
   async function checkBank() {
     const { data, error } = await useSWR(
-      "/api/get-customer-funding-sources",
+      '/api/get-customer-funding-sources',
       fetcher
     );
     if (error || !data) {
       setBankExists(null);
     } else {
       const bankDetails =
-        data.customerFundingSources._embedded["funding-sources"][0];
+        data.customerFundingSources._embedded['funding-sources'][0];
       setBankExists(bankDetails);
     }
   }

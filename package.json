@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "_eslint": "eslint . --ext .js --ext .jsx ",
+    "_prettier": "prettier *.{js,json} \"./!(*node_modules|.next|coverage|out)/*.{js,jsx,css,scss}\" \"./!(*node_modules|.next|coverage|out)/**/*.{js,jsx,css,scss}\" \"./!(*node_modules|.next|coverage|out)/**/**/*.{js,jsx,css,scss}\"",
+    "checks": "yarn _prettier --check && yarn _eslint",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^1.2.0",
@@ -29,6 +33,17 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "prettier": "^2.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,css,scss,json}": "prettier --write",
+    "*.{js,jsx}": "eslint --fix"
   }
 }

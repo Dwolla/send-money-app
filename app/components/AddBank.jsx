@@ -1,16 +1,17 @@
-import axios from "axios";
-import { useEffect } from "react";
+/* eslint-disable no-undef */
+import axios from 'axios';
+import { useEffect } from 'react';
 
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 export default function AddBank() {
   // Loading the dwolla.js script
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.dwolla.com/1/dwolla.js";
+    const script = document.createElement('script');
+    script.src = 'https://cdn.dwolla.com/1/dwolla.js';
     script.async = true;
     document.body.appendChild(script);
     return () => {
@@ -20,33 +21,33 @@ export default function AddBank() {
 
   // Async function that uses axios to call the funding-sources-token endpoint
   async function asyncFunc() {
-    // const response = await axios.get(`/api/funding-sources-token/${id}`); // We would use this if we were manually passing the Customer Id to create a funding-sources-token
-
-    const response = await axios.get("/api/funding-sources-token");
+    const response = await axios.get('/api/funding-sources-token');
     return response.data.token;
+  }
+
+  function callback(err, res) {
+    // eslint-disable-next-line no-unused-vars
+    const logValue = {
+      error: err,
+      response: res,
+    };
   }
 
   // Function that handles calling the dwolla.js function for adding a bank
   async function addBank() {
     const token = await asyncFunc();
-    dwolla.configure("sandbox");
-    var bankInfo = {
-      routingNumber: document.getElementById("routingNumber").value,
-      accountNumber: document.getElementById("accountNumber").value,
-      type: document.getElementById("type").value,
-      name: document.getElementById("name").value,
+    dwolla.configure('sandbox');
+    const bankInfo = {
+      routingNumber: document.getElementById('routingNumber').value,
+      accountNumber: document.getElementById('accountNumber').value,
+      type: document.getElementById('type').value,
+      name: document.getElementById('name').value,
     };
 
     dwolla.fundingSources.create(token, bankInfo, callback);
     return false;
   }
 
-  function callback(err, res) {
-    var logValue = {
-      error: err,
-      response: res,
-    };
-  }
   return (
     <div>
       <Form>

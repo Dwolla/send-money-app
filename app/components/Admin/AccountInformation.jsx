@@ -1,11 +1,10 @@
-import { useState } from "react";
-import useSWR from "swr";
-import fetcher from "../../fetcher";
-import ListGroup from "react-bootstrap/ListGroup";
+import useSWR from 'swr';
+import ListGroup from 'react-bootstrap/ListGroup';
+import fetcher from '../../fetcher';
 
-export default function AccountInformation(props) {
+export default function AccountInformation() {
   // Using usseSWR to make a GET call to the Account details endpoint
-  const res = useSWR("/api/get-account-details", fetcher, {
+  const res = useSWR('/api/get-account-details', fetcher, {
     refreshInterval: 60000,
   }).data;
   if (!res) return <p>Loading...</p>;
@@ -16,7 +15,7 @@ export default function AccountInformation(props) {
         <ListGroup.Item variant="light">
           COMPANY NAME: {res.accountDetails.name}
         </ListGroup.Item>
-        <ListGroup.Item variant="light">EMAIL: {res.email}</ListGroup.Item>{" "}
+        <ListGroup.Item variant="light">EMAIL: {res.email}</ListGroup.Item>{' '}
         {/* {res.email} represents the email that's logged in to the session */}
       </ListGroup>
     </>

@@ -1,9 +1,10 @@
-import React from "react";
-import Head from "next/head";
-import { UserProvider } from "@auth0/nextjs-auth0";
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react';
+import Head from 'next/head';
+import { UserProvider } from '@auth0/nextjs-auth0';
 
-import "../styles/globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import '../styles/globals.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function MyApp({ Component, pageProps }) {
   const Layout = Component.Layout ? Component.Layout : React.Fragment;
@@ -14,7 +15,7 @@ function MyApp({ Component, pageProps }) {
         <script
           type="text/javascript"
           src="//cdn.dwolla.com/v2/dwolla-web.js"
-        ></script>
+        />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
