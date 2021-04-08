@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var fetcher = function (a, b) {
-  return fetch(a, b).then(function (r) {
-    return r.json();
-  });
-};
-exports.default = fetcher;
+import axios from 'axios';
+
+const fetcher = (url) => axios.get(url).then((res) => res.data);
+
+export default fetcher;

@@ -1,6 +1,6 @@
-import Moment from "react-moment";
-import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
+import Moment from 'react-moment';
+import Container from 'react-bootstrap/Container';
+import Table from 'react-bootstrap/Table';
 
 export default function TransfersTable({ transfers }) {
   return (

@@ -1,31 +1,30 @@
-import { useState } from "react";
-import useSWR from "swr";
-import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
+import { useState } from 'react';
+import useSWR from 'swr';
 
-import AccountInformation from "../app/components/Admin/AccountInformation";
-import BankDetails from "../app/components/BankDetails";
-import CustomerLayout from "../app/components/Customer/CustomerLayout"; // This will need to be changed to pull AdminLayout
-import fetcher from "../app/fetcher";
+import AccountInformation from '../app/components/Admin/AccountInformation';
+import BankDetails from '../app/components/BankDetails';
+import AdminLayout from '../app/components/Admin/AdminLayout';
+import fetcher from '../app/fetcher';
 
 const spacingStyle = {
-  margin: "30px 0",
+  margin: '30px 0',
 };
 
-export default function AdminSettings(props) {
+export default function AdminSettings() {
+  // eslint-disable-next-line no-use-before-define
   const [bankExists, setBankExists] = useState(checkBank()); // Set to null if a bank account doees not exist for the Account
 
-  //Retrieving bank details for a Account
+  // Retrieving bank details for a Account
   async function checkBank() {
     const { data, error } = await useSWR(
-      "/api/get-account-funding-sources",
+      '/api/get-account-funding-sources',
       fetcher
     );
     if (error || !data) {
       setBankExists(null);
     } else {
       const bankDetails =
-        data.accountFundingSources._embedded["funding-sources"][0];
+        data.accountFundingSources._embedded['funding-sources'][0];
       setBankExists(bankDetails);
     }
   }
@@ -52,4 +51,4 @@ export default function AdminSettings(props) {
   );
 }
 
-AdminSettings.Layout = CustomerLayout;
+AdminSettings.Layout = AdminLayout;
