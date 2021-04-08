@@ -59,7 +59,8 @@ export default function AddBank() {
               type="text"
               id="routingNumber"
               name="routingNumber"
-              placeholder="273222226"
+              placeHolder="273222226"
+              readonly
             />
           </Col>
         </Form.Group>
