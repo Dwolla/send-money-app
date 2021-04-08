@@ -1,0 +1,30 @@
+.landingBlock{
+  display: flex;
+  justify-content: space-between;
+}
+
+.customer{
+  margin-left: 1%;
+  margin-right: 10%;
+  margin-top: 15%;
+  width: 40%;
+}
+
+.button{
+  height: 5%;
+  margin: 0 auto;
+  margin-top: 23%;
+  padding: 1%;
+  background-color: #2E3745;
+}
+
+.a{
+  word-spacing: 1.5em;
+  color: aliceblue;
+  
+}
+
+.link{
+  text-decoration: none!important;
+}
+
