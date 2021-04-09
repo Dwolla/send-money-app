@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useSWR from 'swr';
 
 import AccountInformation from '../app/components/Admin/AccountInformation';
@@ -11,23 +10,9 @@ const spacingStyle = {
 };
 
 export default function AdminSettings() {
-  // eslint-disable-next-line no-use-before-define
-  const [bankExists, setBankExists] = useState(checkBank()); // Set to null if a bank account doees not exist for the Account
+  const { data, error } = useSWR('/api/get-account-funding-sources', fetcher);
 
-  // Retrieving bank details for a Account
-  async function checkBank() {
-    const { data, error } = await useSWR(
-      '/api/get-account-funding-sources',
-      fetcher
-    );
-    if (error || !data) {
-      setBankExists(null);
-    } else {
-      const bankDetails =
-        data.accountFundingSources._embedded['funding-sources'][0];
-      setBankExists(bankDetails);
-    }
-  }
+  if (error) return <p>There was an error.</p>;
 
   return (
     <>
@@ -38,8 +23,13 @@ export default function AdminSettings() {
       </div>
       <div style={spacingStyle}>
         <h5>Payment information</h5>
-        {bankExists ? (
-          <BankDetails {...bankExists} />
+        {!data ? (
+          <p>Loading</p>
+        ) : data.accountFundingSources._embedded['funding-sources'].length !==
+          0 ? (
+          <BankDetails
+            {...data.accountFundingSources._embedded['funding-sources'][0]}
+          />
         ) : (
           <div style={spacingStyle}>
             <p>You don't have a verified bank account attached.</p>

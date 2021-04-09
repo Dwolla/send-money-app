@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useSWR from 'swr';
 
 import AddBank from '../app/components/AddBank';
@@ -12,23 +11,9 @@ const spacingStyle = {
 };
 
 export default function CustomerSettings() {
-  // eslint-disable-next-line no-use-before-define
-  const [bankExists, setBankExists] = useState(checkBank());
+  const { data, error } = useSWR('/api/get-customer-funding-sources', fetcher);
 
-  // Retrieving bank details for a Customer
-  async function checkBank() {
-    const { data, error } = await useSWR(
-      '/api/get-customer-funding-sources',
-      fetcher
-    );
-    if (error || !data) {
-      setBankExists(null);
-    } else {
-      const bankDetails =
-        data.customerFundingSources._embedded['funding-sources'][0];
-      setBankExists(bankDetails);
-    }
-  }
+  if (error) return <p>There was an error.</p>;
 
   return (
     <>
@@ -39,8 +24,13 @@ export default function CustomerSettings() {
       </div>
       <div style={spacingStyle}>
         <h5>Payment information</h5>
-        {bankExists ? (
-          <BankDetails {...bankExists} />
+        {!data ? (
+          <p>Loading</p>
+        ) : data.customerFundingSources._embedded['funding-sources'].length !==
+          0 ? (
+          <BankDetails
+            {...data.customerFundingSources._embedded['funding-sources'][0]}
+          />
         ) : (
           <div style={spacingStyle}>
             <AddBank />
