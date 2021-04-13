@@ -5,6 +5,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Header from './header';
 import styles from './Index.module.css';
+import { useRouter } from 'next/router';
+import{ useEffect } from 'react';
+
+function Redirect({to}){
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
@@ -18,25 +30,15 @@ export default function Index() {
     if (user.email === process.env.ADMIN_EMAIL) {
       return (
         <>
-          <div>Welcome {user.name}!</div>
-          <div>
-            <a href="/admin">View profile</a>
-          </div>
-          <div>
-            <a href="/api/auth/logout">Logout</a>
-          </div>
+        <div>Welcome {user.name}!</div>
+        <Redirect to="/admin"/>
         </>
       );
     }
     return (
       <>
         <div>Welcome {user.name}!</div>
-        <div>
-          <a href="/dashboard">View profile</a>
-        </div>
-        <div>
-          <a href="/api/auth/logout">Logout</a>
-        </div>
+        <Redirect to="/dashboard" />
       </>
     );
   }
