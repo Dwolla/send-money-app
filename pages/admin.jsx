@@ -24,7 +24,8 @@ export default function AdminPage() {
 
   if (!user) {
     return <Redirect to="/" />;
-  } else if (user.email === 'moreira.kd@outlook.com') {
+    // hard code admin email
+  } else if (user.email === '') {
     return (
       <AdminLayout>
         <h4>Your Customers</h4>

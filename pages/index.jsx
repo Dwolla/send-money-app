@@ -27,7 +27,7 @@ export default function Index() {
 
   if (user) {
     // Hard code dwolla master account email for now
-    if (user.email === process.env.ADMIN_EMAIL) {
+    if (user.email === "") {
       return (
         <>
         <div>Welcome {user.name}!</div>
