@@ -24,10 +24,14 @@ export default function AdminPage() {
 
   if (!user) {
     return <Redirect to="/" />;
+  } else if (user.email === 'moreira.kd@outlook.com') {
+    return (
+      <AdminLayout>
+        <h4>Your Customers</h4>
+        <AdminTable data={CustomerData} />
+      </AdminLayout>
+    );
   } else {
-    <AdminLayout>
-      <h4>Your Customers</h4>
-      <AdminTable data={CustomerData} />
-    </AdminLayout>;
+    return <Redirect to="/dashboard" />;
   }
 }
