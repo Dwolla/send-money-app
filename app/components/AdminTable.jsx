@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 
-export default function AdminTable({ data }) {
+export default function AdminTable({ customers }) {
   return (
     <Container className="p-3 my-content">
       <Table
@@ -19,12 +19,15 @@ export default function AdminTable({ data }) {
           </tr>
         </thead>
         <tbody>
-          {data.map((d, index) => (
+          {customers.map((c, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>{d.name}</td>
-              <td>{d.email}</td>
-              <td>{d.sendmoney}</td>
+              <td>
+                {c.firstName}
+                {c.lastName}
+              </td>
+              <td>{c.email}</td>
+              <td>{c.sendmoney}</td>
             </tr>
           ))}
         </tbody>

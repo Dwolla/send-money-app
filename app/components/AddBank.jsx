@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
 import { useEffect } from 'react';
+import { mutate, trigger } from 'swr';
 
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -44,7 +45,9 @@ export default function AddBank() {
       name: document.getElementById('name').value,
     };
 
+    mutate('/api/get-customer-funding-sources');
     dwolla.fundingSources.create(token, bankInfo, callback);
+    trigger('/api/get-customer-funding-sources');
     return false;
   }
 
@@ -60,8 +63,8 @@ export default function AddBank() {
               type="text"
               id="routingNumber"
               name="routingNumber"
-              placeHolder="273222226"
-              readonly
+              placeholder="222222226"
+              defaultValue="222222226"
             />
           </Col>
         </Form.Group>

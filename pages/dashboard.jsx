@@ -1,9 +1,11 @@
-import CustomerLayout from '../app/components/Customer/CustomerLayout';
-import TransfersTable from '../app/components/TransfersTable';
-import { getCustomerTransfers } from '../app/dwolla';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import useSWR from 'swr';
+import fetcher from '../app/fetcher';
+
+import CustomerLayout from '../app/components/Customer/CustomerLayout';
+import TransfersTable from '../app/components/TransfersTable';
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -15,34 +17,31 @@ function Redirect({ to }) {
   return null;
 }
 
-export default function Dashboard({ props }) {
+export default function Dashboard() {
   const { user, error, isLoading } = useUser();
+  const { data } = useSWR('/api/customer-transfers', fetcher);
 
-  if (isLoading) return <div>Loading...</div>;
-
-  if (error) return <div>{error.message}</div>;
-// hard code admin email
-  if(!user || user.email === ""){
-    return <Redirect to="/" />
-  } else {
-    return (
-      <>
-        <h3>PAYMENT HISTORY</h3>
-        <TransfersTable transfers={props._embedded.transfers} />
-      </>
-    );
+  if (!user || user.email === process.env.ADMIN_EMAIL) {
+    return <Redirect to="/" />;
   }
 
-  }
+  return (
+    <CustomerLayout>
+      <h3>PAYMENT HISTORY</h3>
+      {isLoading && <p>Loading profile...</p>}
 
+      {error && (
+        <>
+          <h4>Error</h4>
+          <pre>{error.message}</pre>
+        </>
+      )}
 
-// Fetch customer's transfers at the time of page load
-export const getStaticProps = async () => {
-  const data = await getCustomerTransfers();
-
-  return {
-    props: data,
-  };
-};
-
-Dashboard.Layout = CustomerLayout;
+      {user && data && (
+        <>
+          <TransfersTable transfers={data.transfers._embedded.transfers} />
+        </>
+      )}
+    </CustomerLayout>
+  );
+}

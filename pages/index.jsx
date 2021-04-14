@@ -1,14 +1,14 @@
 /* eslint-disable react/button-has-type */
 import { useUser } from '@auth0/nextjs-auth0';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from './header';
 import styles from './Index.module.css';
-import { useRouter } from 'next/router';
-import{ useEffect } from 'react';
 
-function Redirect({to}){
+function Redirect({ to }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -27,11 +27,11 @@ export default function Index() {
 
   if (user) {
     // Hard code dwolla master account email for now
-    if (user.email === "") {
+    if (user.email === process.env.ADMIN_EMAIL) {
       return (
         <>
-        <div>Welcome {user.name}!</div>
-        <Redirect to="/admin"/>
+          <div>Welcome {user.name}!</div>
+          <Redirect to="/admin" />
         </>
       );
     }
