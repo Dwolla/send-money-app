@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { mutate, trigger } from 'swr';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
@@ -9,7 +10,9 @@ const spacingStyle = {
 export default function BankDetails({ id, name, bankAccountType, status }) {
   // Using Axios for POST request to remove bank
   function removeBank() {
+    mutate('/api/get-customer-funding-sources', false);
     axios.post(`/api/remove-bank/${id}`).then((response) => response);
+    trigger('/api/get-customer-funding-sources');
   }
 
   return (

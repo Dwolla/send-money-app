@@ -1,9 +1,10 @@
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0';
+import useSWR from 'swr';
+import fetcher from '../app/fetcher';
 import AdminLayout from '../app/components/Admin/AdminLayout';
 import AdminTable from '../app/components/AdminTable';
-import CustomerData from '../app/components/customer-data';
-import { useUser } from '@auth0/nextjs-auth0';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -17,22 +18,29 @@ function Redirect({ to }) {
 
 export default function AdminPage() {
   const { user, error, isLoading } = useUser();
+  const { data } = useSWR('/api/get-customer-list', fetcher);
 
-  if (isLoading) return <div>Loading...</div>;
-
-  if (error) return <div>{error.message}</div>;
-
-  if (!user) {
+  if (!user || user.email !== process.env.ADMIN_EMAIL) {
     return <Redirect to="/" />;
-    // hard code admin email
-  } else if (user.email === '') {
-    return (
-      <AdminLayout>
-        <h4>Your Customers</h4>
-        <AdminTable data={CustomerData} />
-      </AdminLayout>
-    );
-  } else {
-    return <Redirect to="/dashboard" />;
   }
+
+  return (
+    <AdminLayout>
+      <h3>PAYMENT HISTORY</h3>
+      {isLoading && <p>Loading profile...</p>}
+
+      {error && (
+        <>
+          <h4>Error</h4>
+          <pre>{error.message}</pre>
+        </>
+      )}
+
+      {user && data && (
+        <>
+          <AdminTable customers={data.customers._embedded.customers} />
+        </>
+      )}
+    </AdminLayout>
+  );
 }
