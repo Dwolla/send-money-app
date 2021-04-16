@@ -63,7 +63,7 @@ export default function Index() {
         />
         <Link href="/api/auth/login" className={styles.link}>
           <button className={styles.button}>
-            <a className={styles.a}>Login | Signup</a>
+            <a className={styles.a}>Login or Signup</a>
           </button>
         </Link>
       </div>
