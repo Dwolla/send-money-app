@@ -48,7 +48,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Dwolla Starter Kit</title>
+        <title>Send Money Starter Kit</title>
         <script
           type="text/javascript"
           src="https://cdn.dwolla.com/v2/dwolla-web.js"
