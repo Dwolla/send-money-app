@@ -45,7 +45,7 @@ export default function CustomerLayout({ children }) {
     <div style={layoutStyle}>
       <Navbar style={navbarStyle}>
         <Nav className="flex-column" style={navStyle}>
-          <div style={brandStyle}>Send Money App</div>
+          <div style={brandStyle}>Send Money Starter Kit</div>
           <Nav.Link eventKey="dashboard" href="/dashboard">
             Dashboard
           </Nav.Link>

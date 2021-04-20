@@ -4,7 +4,7 @@ function Header() {
   return (
     <>
       <header className={styles.header}>
-        <p className={styles.text}>Doggie DayCare Freelancer</p>
+        <p className={styles.text}>Send Money Starter Kit</p>
       </header>
     </>
   );

@@ -16,13 +16,11 @@
   margin-top: 23%;
   padding: 1%;
   background-color: #2e3745;
-}
-
-.a {
-  word-spacing: 1.5em;
   color: aliceblue;
+  text-align: center;
 }
 
-.link {
-  text-decoration: none !important;
+.p{
+  word-spacing: 10px;
+  margin-bottom: -.5%;
 }

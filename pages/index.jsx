@@ -8,9 +8,10 @@ import Link from 'next/link';
 import Header from './header';
 import styles from './Index.module.css';
 
+
 function Redirect({ to }) {
   const router = useRouter();
-
+  
   useEffect(() => {
     router.push(to);
   }, [to]);
@@ -19,6 +20,7 @@ function Redirect({ to }) {
 }
 
 export default function Index() {
+  const router = useRouter();
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
@@ -46,7 +48,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Dwolla Starter Kit</title>
+        <title>Send Money Starter Kit</title>
         <script
           type="text/javascript"
           src="https://cdn.dwolla.com/v2/dwolla-web.js"
@@ -61,11 +63,11 @@ export default function Index() {
           height={900}
           objectFit="fill"
         />
-        <Link href="/api/auth/login" className={styles.link}>
-          <button className={styles.button}>
-            <a className={styles.a}>Login | Signup</a>
+          <button className={styles.button} onClick={() => {
+            router.push("/api/auth/login")
+          }}>
+            <p className={styles.p}>Login or Signup</p>
           </button>
-        </Link>
       </div>
     </>
   );
