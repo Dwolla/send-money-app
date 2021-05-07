@@ -4,7 +4,7 @@ import fetcher from '../../fetcher';
 
 export default function AccountInformation() {
   // Using usseSWR to make a GET call to the Account details endpoint
-  const res = useSWR('/api/get-account-details', fetcher, {
+  const res = useSWR('/api/account-details', fetcher, {
     refreshInterval: 60000,
   }).data;
   if (!res) return <p>Loading...</p>;

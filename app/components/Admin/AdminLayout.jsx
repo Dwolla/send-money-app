@@ -46,7 +46,7 @@ export default function AdminLayout({ children }) {
     <div style={layoutStyle}>
       <Navbar style={navbarStyle}>
         <Nav className="flex-column" style={navStyle}>
-          <div style={brandStyle}>Send Money App</div>
+          <div style={brandStyle}>Send Money Starter Kit</div>
           <Nav.Link eventKey="admin" href="/admin">
             Dashboard
           </Nav.Link>

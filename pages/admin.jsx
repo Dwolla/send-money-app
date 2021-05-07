@@ -18,7 +18,7 @@ function Redirect({ to }) {
 
 export default function AdminPage() {
   const { user, error, isLoading } = useUser();
-  const { data } = useSWR('/api/get-customer-list', fetcher);
+  const { data } = useSWR('/api/customer-list', fetcher);
 
   if (!user || user.email !== process.env.ADMIN_EMAIL) {
     return <Redirect to="/" />;
@@ -26,7 +26,7 @@ export default function AdminPage() {
 
   return (
     <AdminLayout>
-      <h3>PAYMENT HISTORY</h3>
+      <h3>CUSTOMERS</h3>
       {isLoading && <p>Loading profile...</p>}
 
       {error && (

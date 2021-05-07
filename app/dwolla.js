@@ -1,6 +1,7 @@
 import { Client } from 'dwolla-v2';
 
-const customerUrl = ''; // Set CustomerUrl here
+// Set API base URL
+const baseUrl = 'https://api-sandbox.dwolla.com';
 
 const dwolla = new Client({
   key: process.env.DWOLLA_APP_KEY,
@@ -34,25 +35,28 @@ const getCustomers = async () => {
   return res.body;
 };
 
-const getCustomerDetails = async () => {
-  const res = await dwolla.get(customerUrl);
+const getCustomerDetails = async (customerId) => {
+  const res = await dwolla.get(`${baseUrl}/customers/${customerId}`);
   return res.body;
 };
 
-const getCustomerFundingSources = async () => {
-  const res = await dwolla.get(`${customerUrl}/funding-sources`, {
-    removed: false,
-  });
+const getCustomerFundingSources = async (customerId) => {
+  const res = await dwolla.get(
+    `${baseUrl}/customers/${customerId}/funding-sources`,
+    {
+      removed: false,
+    }
+  );
   return res.body;
 };
 
-const getCustomerTransfers = async () => {
-  const res = await dwolla.get(`${customerUrl}/transfers`);
+const getCustomerTransfers = async (customerId) => {
+  const res = await dwolla.get(`${baseUrl}/customers/${customerId}/transfers`);
   return res.body;
 };
 
 const removeBank = async (id) => {
-  const fundingSourceUrl = `https://api-sandbox.dwolla.com/funding-sources/${id}`; // Accepting {id} as props to remove a funding-source
+  const fundingSourceUrl = `${baseUrl}/funding-sources/${id}`; // Accepting {id} as props to remove a funding-source
   const requestBody = {
     removed: true,
   };
@@ -60,8 +64,10 @@ const removeBank = async (id) => {
   return res;
 };
 
-const createFundingSourcesToken = async () => {
-  const res = await dwolla.post(`${customerUrl}/funding-sources-token`);
+const createFundingSourcesToken = async (customerId) => {
+  const res = await dwolla.post(
+    `${baseUrl}/customers/${customerId}/funding-sources-token`
+  );
   return res.body.token;
 };
 

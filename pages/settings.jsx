@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import useSWR from 'swr';
 
 import AddBank from '../app/components/AddBank';
@@ -5,13 +6,18 @@ import BankDetails from '../app/components/BankDetails';
 import CustomerInformation from '../app/components/Customer/CustomerInformation';
 import CustomerLayout from '../app/components/Customer/CustomerLayout';
 import fetcher from '../app/fetcher';
+import { CustomerContext } from '../app/components/context/CustomerContext';
 
 const spacingStyle = {
   margin: '30px 0',
 };
 
 export default function CustomerSettings() {
-  const { data, error } = useSWR('/api/get-customer-funding-sources', fetcher);
+  const [customerId] = useContext(CustomerContext);
+  const { data, error } = useSWR(
+    `/api/customer-funding-sources/${customerId}`,
+    fetcher
+  );
 
   if (error) return <p>There was an error.</p>;
 

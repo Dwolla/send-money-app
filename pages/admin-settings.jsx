@@ -10,7 +10,7 @@ const spacingStyle = {
 };
 
 export default function AdminSettings() {
-  const { data, error } = useSWR('/api/get-account-funding-sources', fetcher);
+  const { data, error } = useSWR('/api/account-funding-sources', fetcher);
 
   if (error) return <p>There was an error.</p>;
 
