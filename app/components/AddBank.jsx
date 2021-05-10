@@ -1,14 +1,16 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { mutate, trigger } from 'swr';
 
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { CustomerContext } from './context/CustomerContext';
 
 export default function AddBank() {
+  const [customerId] = useContext(CustomerContext);
   // Loading the dwolla.js script
   useEffect(() => {
     const script = document.createElement('script');
@@ -22,7 +24,9 @@ export default function AddBank() {
 
   // Async function that uses axios to call the funding-sources-token endpoint
   async function asyncFunc() {
-    const response = await axios.get('/api/funding-sources-token');
+    const response = await axios.get(
+      `/api/funding-sources-token/${customerId}`
+    );
     return response.data.token;
   }
 
@@ -45,9 +49,9 @@ export default function AddBank() {
       name: document.getElementById('name').value,
     };
 
-    mutate('/api/get-customer-funding-sources');
+    mutate(`/api/customer-funding-sources/${customerId}`);
     dwolla.fundingSources.create(token, bankInfo, callback);
-    trigger('/api/get-customer-funding-sources');
+    trigger(`/api/customer-funding-sources/${customerId}`);
     return false;
   }
 
