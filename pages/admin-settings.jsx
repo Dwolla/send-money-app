@@ -25,11 +25,11 @@ export default function AdminSettings() {
   const { user } = useUser();
   const { data, error } = useSWR('/api/account-funding-sources', fetcher);
 
-  if (error) return <p>There was an error.</p>;
-
   if (!user || user.email !== process.env.ADMIN_EMAIL) {
     return <Redirect to="/" />;
   }
+
+  if (error) return <p>There was an error.</p>;
 
   return (
     <>
