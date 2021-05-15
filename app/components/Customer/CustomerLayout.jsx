@@ -1,3 +1,6 @@
+import { useUser } from '@auth0/nextjs-auth0';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Nav';
 
@@ -40,7 +43,28 @@ const brandStyle = {
   margin: '35px 0 50px',
 };
 
+function Redirect({ to }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
+
 export default function CustomerLayout({ children }) {
+  const { user, isLoading } = useUser();
+
+  if (!user) {
+    return (
+      <>
+        {isLoading && null}
+        <Redirect to="/" />
+      </>
+    );
+  }
+
   return (
     <div style={layoutStyle}>
       <Navbar style={navbarStyle}>

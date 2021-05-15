@@ -22,11 +22,16 @@ function Redirect({ to }) {
 }
 
 export default function AdminSettings() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const { data, error } = useSWR('/api/account-funding-sources', fetcher);
 
   if (!user || user.email !== process.env.ADMIN_EMAIL) {
-    return <Redirect to="/" />;
+    return (
+      <>
+        {isLoading && null}
+        <Redirect to="/" />
+      </>
+    );
   }
 
   if (error) return <p>There was an error.</p>;
@@ -36,6 +41,7 @@ export default function AdminSettings() {
       <h3>SETTINGS</h3>
       <div style={spacingStyle}>
         <h5>Account information</h5>
+        {isLoading && <p>Loading info...</p>}
         <AccountInformation />
       </div>
       <div style={spacingStyle}>
