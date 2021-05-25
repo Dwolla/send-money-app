@@ -25,15 +25,20 @@ function Redirect({ to }) {
 }
 
 export default function CustomerSettings() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [customerId] = useContext(CustomerContext);
   const { data, error } = useSWR(
     `/api/customer-funding-sources/${customerId}`,
     fetcher
   );
 
-  if (!user) {
-    return <Redirect to="/" />;
+  if (!user || user.email === process.env.ADMIN_EMAIL) {
+    return (
+      <>
+        {isLoading && null}
+        <Redirect to="/" />
+      </>
+    );
   }
 
   if (error) return <p>There was an error.</p>;

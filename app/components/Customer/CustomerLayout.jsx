@@ -56,7 +56,7 @@ function Redirect({ to }) {
 export default function CustomerLayout({ children }) {
   const { user, isLoading } = useUser();
 
-  if (!user) {
+  if (!user || user.email === process.env.ADMIN_EMAIL) {
     return (
       <>
         {isLoading && null}
