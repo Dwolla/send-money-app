@@ -30,8 +30,14 @@ const getAccountFundingSources = async () => {
   return res.body;
 };
 
-const getCustomers = async () => {
-  const res = await dwolla.get('customers');
+const getCustomers = async (email) => {
+  const res = await (email
+    ? dwolla.get('customers', {
+        email: `${email}`,
+        status: 'unverified' || 'verified',
+        removed: false,
+      })
+    : dwolla.get('customers'));
   return res.body;
 };
 
@@ -71,6 +77,15 @@ const createFundingSourcesToken = async (customerId) => {
   return res.body.token;
 };
 
+const createCustomer = async (req) => {
+  const res = await dwolla.post(`${baseUrl}/customers`, {
+    firstName: `${req.firstName}`,
+    lastName: `${req.lastName}`,
+    email: `${req.email}`,
+  });
+  return res.headers.get('location');
+};
+
 export default dwolla;
 export {
   getAccountDetails,
@@ -81,4 +96,5 @@ export {
   getCustomerFundingSources,
   removeBank,
   createFundingSourcesToken,
+  createCustomer,
 };

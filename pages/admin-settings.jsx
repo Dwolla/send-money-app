@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';
 
 import AccountInformation from '../app/components/Admin/AccountInformation';
@@ -42,3 +43,5 @@ export default function AdminSettings() {
 }
 
 AdminSettings.Layout = AdminLayout;
+
+export const getServerSideProps = withPageAuthRequired();

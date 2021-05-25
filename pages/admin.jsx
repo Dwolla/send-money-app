@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';
 import fetcher from '../app/fetcher';
 import AdminLayout from '../app/components/Admin/AdminLayout';
-import AdminTable from '../app/components/AdminTable';
+import AdminTable from '../app/components/Admin/AdminTable';
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -44,3 +45,5 @@ export default function AdminPage() {
     </AdminLayout>
   );
 }
+
+export const getServerSideProps = withPageAuthRequired();
