@@ -1,16 +1,15 @@
-import { useContext } from 'react';
+/* eslint-disable no-undef */
 import axios from 'axios';
 import { mutate, trigger } from 'swr';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import { CustomerContext } from './context/CustomerContext';
 
 const spacingStyle = {
   margin: '30px 0',
 };
 
 export default function BankDetails({ id, name, bankAccountType, status }) {
-  const [customerId] = useContext(CustomerContext);
+  const customerId = localStorage.getItem('userDwollaId');
   // Using Axios for POST request to remove bank
   function removeBank() {
     mutate(`/api/customer-funding-sources/${customerId}`, false);

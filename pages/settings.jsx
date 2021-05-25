@@ -1,4 +1,6 @@
-import { useContext } from 'react';
+/* eslint-disable no-undef */
+import { useState, useEffect } from 'react';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';
 
 import AddBank from '../app/components/AddBank';
@@ -6,16 +8,20 @@ import BankDetails from '../app/components/BankDetails';
 import CustomerInformation from '../app/components/Customer/CustomerInformation';
 import CustomerLayout from '../app/components/Customer/CustomerLayout';
 import fetcher from '../app/fetcher';
-import { CustomerContext } from '../app/components/context/CustomerContext';
 
 const spacingStyle = {
   margin: '30px 0',
 };
 
 export default function CustomerSettings() {
-  const [customerId] = useContext(CustomerContext);
+  const [customerId, setCustomerId] = useState();
+
+  useEffect(() => {
+    setCustomerId(localStorage.getItem('userDwollaId'));
+  }, []);
+
   const { data, error } = useSWR(
-    `/api/customer-funding-sources/${customerId}`,
+    customerId ? `/api/customer-funding-sources/${customerId}` : null,
     fetcher
   );
 
@@ -26,12 +32,12 @@ export default function CustomerSettings() {
       <h3>SETTINGS</h3>
       <div style={spacingStyle}>
         <h5>Account information</h5>
-        <CustomerInformation />
+        <CustomerInformation customerId={customerId} />
       </div>
       <div style={spacingStyle}>
         <h5>Payment information</h5>
         {!data ? (
-          <p>Loading</p>
+          <p>Loading...</p>
         ) : data.customerFundingSources._embedded['funding-sources'].length !==
           0 ? (
           <BankDetails
@@ -39,7 +45,7 @@ export default function CustomerSettings() {
           />
         ) : (
           <div style={spacingStyle}>
-            <AddBank />
+            <AddBank customerId={customerId} />
           </div>
         )}
       </div>
@@ -48,3 +54,5 @@ export default function CustomerSettings() {
 }
 
 CustomerSettings.Layout = CustomerLayout;
+
+export const getServerSideProps = withPageAuthRequired();

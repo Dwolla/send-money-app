@@ -1,12 +1,12 @@
-import { useUser } from '@auth0/nextjs-auth0';
+/* eslint-disable no-undef */
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
-import { useEffect, useContext } from 'react';
-import useSWR from 'swr';
-import fetcher from '../app/fetcher';
-import { CustomerContext } from '../app/components/context/CustomerContext';
+import { useState, useEffect } from 'react';
 
 import CustomerLayout from '../app/components/Customer/CustomerLayout';
-import TransfersTable from '../app/components/TransfersTable';
+import Layout from '../app/components/Layout';
+import CreateCustomer from '../app/components/Customer/CreateCustomer';
+import TransfersTable from '../app/components/Customer/TransfersTable';
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -19,38 +19,45 @@ function Redirect({ to }) {
 }
 
 export default function Dashboard() {
-  // check if the user has a customr account by filtering Customer list based on email search parameter.
-  // if it doesn't, display a form to collect firstName and lastName
-  // When they hit submit, we create a Customer account in Dwolla then render the CustomerLayout
-  // Save the CustomerID to CustomerContext
+  const { user, isLoading, error } = useUser();
+  const [customerId, setCustomerId] = useState();
 
-  // Remove the following eslint comment after using setCustomerId
-  // eslint-disable-next-line no-unused-vars
-  const [customerId, setCustomerId] = useContext(CustomerContext);
-  const { user, error, isLoading } = useUser();
-  const { data } = useSWR(`/api/customer-transfer/${customerId}`, fetcher);
+  useEffect(() => {
+    setCustomerId(localStorage.getItem('userDwollaId'));
+  }, []);
 
-  if (!user || user.email === process.env.ADMIN_EMAIL) {
+  if (user && user.email === process.env.ADMIN_EMAIL) {
     return <Redirect to="/" />;
   }
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return (
+      <>
+        <h4>Error</h4>
+        <pre>{error.message}</pre>
+      </>
+    );
+  }
+
   return (
-    <CustomerLayout>
-      <h3>PAYMENT HISTORY</h3>
-      {isLoading && <p>Loading profile...</p>}
-
-      {error && (
-        <>
-          <h4>Error</h4>
-          <pre>{error.message}</pre>
-        </>
+    <>
+      {customerId && (
+        <CustomerLayout>
+          <h3>PAYMENT HISTORY</h3>
+          {customerId && <TransfersTable customerId={customerId} />}
+        </CustomerLayout>
       )}
-
-      {user && data && (
-        <>
-          <TransfersTable transfers={data.transfers._embedded.transfers} />
-        </>
+      {!customerId && (
+        <Layout>
+          <CreateCustomer email={user.email} setCustomerId={setCustomerId} />
+        </Layout>
       )}
-    </CustomerLayout>
+    </>
   );
 }
+
+export const getServerSideProps = withPageAuthRequired();
