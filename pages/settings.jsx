@@ -1,6 +1,8 @@
 import { useContext } from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';
-
 import AddBank from '../app/components/AddBank';
 import BankDetails from '../app/components/BankDetails';
 import CustomerInformation from '../app/components/Customer/CustomerInformation';
@@ -12,12 +14,32 @@ const spacingStyle = {
   margin: '30px 0',
 };
 
+function Redirect({ to }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
+
 export default function CustomerSettings() {
+  const { user, isLoading } = useUser();
   const [customerId] = useContext(CustomerContext);
   const { data, error } = useSWR(
     `/api/customer-funding-sources/${customerId}`,
     fetcher
   );
+
+  if (!user || user.email === process.env.ADMIN_EMAIL) {
+    return (
+      <>
+        {isLoading && null}
+        <Redirect to="/" />
+      </>
+    );
+  }
 
   if (error) return <p>There was an error.</p>;
 
