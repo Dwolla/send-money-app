@@ -65,6 +65,11 @@ export default function CustomerLayout({ children }) {
     );
   }
 
+  function clearLocalStorage() {
+    // eslint-disable-next-line no-undef
+    localStorage.clear();
+  }
+
   return (
     <div style={layoutStyle}>
       <Navbar style={navbarStyle}>
@@ -76,7 +81,11 @@ export default function CustomerLayout({ children }) {
           <Nav.Link eventKey="settings" href="/settings">
             Settings
           </Nav.Link>
-          <Nav.Link eventKey="log-out" href="/api/auth/logout">
+          <Nav.Link
+            eventKey="log-out"
+            href="/api/auth/logout"
+            onClick={clearLocalStorage}
+          >
             Logout
           </Nav.Link>
         </Nav>

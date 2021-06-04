@@ -66,6 +66,11 @@ export default function AdminLayout({ children }) {
     );
   }
 
+  function clearLocalStorage() {
+    // eslint-disable-next-line no-undef
+    localStorage.clear();
+  }
+
   return (
     <div style={layoutStyle}>
       <Navbar style={navbarStyle}>
@@ -77,7 +82,11 @@ export default function AdminLayout({ children }) {
           <Nav.Link eventKey="admin-settings" href="/admin-settings">
             Admin settings
           </Nav.Link>
-          <Nav.Link eventKey="log-out" href="/api/auth/logout">
+          <Nav.Link
+            eventKey="log-out"
+            href="/api/auth/logout"
+            onClick={clearLocalStorage}
+          >
             Logout
           </Nav.Link>
         </Nav>

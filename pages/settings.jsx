@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import { useState, useEffect } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';

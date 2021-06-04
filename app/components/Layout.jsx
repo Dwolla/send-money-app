@@ -41,12 +41,21 @@ const brandStyle = {
 };
 
 export default function Layout({ children }) {
+  function clearLocalStorage() {
+    // eslint-disable-next-line no-undef
+    localStorage.clear();
+  }
+
   return (
     <div style={layoutStyle}>
       <Navbar style={navbarStyle}>
         <Nav className="flex-column" style={navStyle}>
           <div style={brandStyle}>Send Money Starter Kit</div>
-          <Nav.Link eventKey="log-out" href="/api/auth/logout">
+          <Nav.Link
+            eventKey="log-out"
+            href="/api/auth/logout"
+            onClick={clearLocalStorage}
+          >
             Logout
           </Nav.Link>
         </Nav>
