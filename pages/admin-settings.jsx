@@ -1,6 +1,9 @@
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import useSWR from 'swr';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0';
 
+import useSWR from 'swr';
 import AccountInformation from '../app/components/Admin/AccountInformation';
 import BankDetails from '../app/components/BankDetails';
 import AdminLayout from '../app/components/Admin/AdminLayout';
@@ -10,8 +13,28 @@ const spacingStyle = {
   margin: '30px 0',
 };
 
+function Redirect({ to }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
+
 export default function AdminSettings() {
+  const { user, isLoading } = useUser();
   const { data, error } = useSWR('/api/account-funding-sources', fetcher);
+
+  if (!user || user.email !== process.env.ADMIN_EMAIL) {
+    return (
+      <>
+        {isLoading && null}
+        <Redirect to="/" />
+      </>
+    );
+  }
 
   if (error) return <p>There was an error.</p>;
 
@@ -20,6 +43,7 @@ export default function AdminSettings() {
       <h3>SETTINGS</h3>
       <div style={spacingStyle}>
         <h5>Account information</h5>
+        {isLoading && <p>Loading info...</p>}
         <AccountInformation />
       </div>
       <div style={spacingStyle}>

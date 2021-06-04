@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
 import { useState, useEffect } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';
-
 import AddBank from '../app/components/AddBank';
 import BankDetails from '../app/components/BankDetails';
 import CustomerInformation from '../app/components/Customer/CustomerInformation';
@@ -13,7 +15,18 @@ const spacingStyle = {
   margin: '30px 0',
 };
 
+function Redirect({ to }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
+
 export default function CustomerSettings() {
+  const { user, isLoading } = useUser();
   const [customerId, setCustomerId] = useState();
   const [fundingSource, setFundingSource] = useState();
 
@@ -25,6 +38,15 @@ export default function CustomerSettings() {
     customerId ? `/api/customer-funding-sources/${customerId}` : null,
     fetcher
   );
+
+  if (!user || user.email === process.env.ADMIN_EMAIL) {
+    return (
+      <>
+        {isLoading && null}
+        <Redirect to="/" />
+      </>
+    );
+  }
 
   if (error) return <p>There was an error.</p>;
 
