@@ -1,6 +1,8 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0';
+
 import useSWR from 'swr';
 import AccountInformation from '../app/components/Admin/AccountInformation';
 import BankDetails from '../app/components/BankDetails';
@@ -65,3 +67,5 @@ export default function AdminSettings() {
 }
 
 AdminSettings.Layout = AdminLayout;
+
+export const getServerSideProps = withPageAuthRequired();

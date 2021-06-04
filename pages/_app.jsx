@@ -2,7 +2,6 @@
 import React from 'react';
 import Head from 'next/head';
 import { UserProvider } from '@auth0/nextjs-auth0';
-import { CustomerProvider } from '../app/components/context/CustomerContext';
 
 import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -29,11 +28,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <UserProvider>
-        <CustomerProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </CustomerProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </UserProvider>
     </>
   );
