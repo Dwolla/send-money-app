@@ -1,7 +1,7 @@
+/* eslint-disable no-undef */
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useUser } from '@auth0/nextjs-auth0';
 
 import useSWR from 'swr';
 import AccountInformation from '../app/components/Admin/AccountInformation';
@@ -13,37 +13,30 @@ const spacingStyle = {
   margin: '30px 0',
 };
 
-function Redirect({ to }) {
+export default function AdminSettings() {
+  const { data, error } = useSWR('/api/account-funding-sources', fetcher);
+  const [loaded, setLoaded] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    router.push(to);
-  }, [to]);
+    if (localStorage.getItem('userEmail') !== process.env.ADMIN_EMAIL) {
+      router.push('/');
+      return;
+    }
+    setLoaded(true);
+  }, []);
 
-  return null;
-}
-
-export default function AdminSettings() {
-  const { user, isLoading } = useUser();
-  const { data, error } = useSWR('/api/account-funding-sources', fetcher);
-
-  if (!user || user.email !== process.env.ADMIN_EMAIL) {
-    return (
-      <>
-        {isLoading && null}
-        <Redirect to="/" />
-      </>
-    );
+  if (!loaded) {
+    return <p>Redirecting...</p>;
   }
 
   if (error) return <p>There was an error.</p>;
 
   return (
-    <>
+    <AdminLayout>
       <h3>SETTINGS</h3>
       <div style={spacingStyle}>
         <h5>Account information</h5>
-        {isLoading && <p>Loading info...</p>}
         <AccountInformation />
       </div>
       <div style={spacingStyle}>
@@ -62,10 +55,8 @@ export default function AdminSettings() {
           </div>
         )}
       </div>
-    </>
+    </AdminLayout>
   );
 }
-
-AdminSettings.Layout = AdminLayout;
 
 export const getServerSideProps = withPageAuthRequired();

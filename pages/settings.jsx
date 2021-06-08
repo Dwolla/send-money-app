@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
-import { useUser } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';
 import AddBank from '../app/components/AddBank';
 import BankDetails from '../app/components/BankDetails';
@@ -14,22 +13,18 @@ const spacingStyle = {
   margin: '30px 0',
 };
 
-function Redirect({ to }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push(to);
-  }, [to]);
-
-  return null;
-}
-
 export default function CustomerSettings() {
-  const { user, isLoading } = useUser();
+  const router = useRouter();
+  const [loaded, setLoaded] = useState(false);
   const [customerId, setCustomerId] = useState();
   const [fundingSource, setFundingSource] = useState();
 
   useEffect(() => {
+    if (localStorage.getItem('userEmail') === process.env.ADMIN_EMAIL) {
+      router.push('/');
+      return;
+    }
+    setLoaded(true);
     setCustomerId(localStorage.getItem('userDwollaId'));
   }, []);
 
@@ -38,19 +33,14 @@ export default function CustomerSettings() {
     fetcher
   );
 
-  if (!user || user.email === process.env.ADMIN_EMAIL) {
-    return (
-      <>
-        {isLoading && null}
-        <Redirect to="/" />
-      </>
-    );
+  if (!loaded) {
+    return <p>Redirecting...</p>;
   }
 
   if (error) return <p>There was an error.</p>;
 
   return (
-    <>
+    <CustomerLayout>
       <h3>SETTINGS</h3>
       <div style={spacingStyle}>
         <h5>Account information</h5>
@@ -77,10 +67,8 @@ export default function CustomerSettings() {
           )
         )}
       </div>
-    </>
+    </CustomerLayout>
   );
 }
-
-CustomerSettings.Layout = CustomerLayout;
 
 export const getServerSideProps = withPageAuthRequired();
