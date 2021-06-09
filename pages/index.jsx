@@ -1,17 +1,17 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/button-has-type */
 import { useUser } from '@auth0/nextjs-auth0';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+
 import Head from 'next/head';
 import Image from 'next/image';
-import Link from 'next/link';
-import Header from './header';
-import styles from './Index.module.css';
-
+import Header from '../app/components/header';
+import styles from '../styles/Index.module.css';
 
 function Redirect({ to }) {
   const router = useRouter();
-  
+
   useEffect(() => {
     router.push(to);
   }, [to]);
@@ -28,18 +28,18 @@ export default function Index() {
   if (error) return <div>{error.message}</div>;
 
   if (user) {
-    // Hard code dwolla master account email for now
+    localStorage.setItem('userEmail', user.email);
+
     if (user.email === process.env.ADMIN_EMAIL) {
       return (
         <>
-          <div>Welcome {user.name}!</div>
           <Redirect to="/admin" />
         </>
       );
     }
+
     return (
       <>
-        <div>Welcome {user.name}!</div>
         <Redirect to="/dashboard" />
       </>
     );
@@ -63,11 +63,14 @@ export default function Index() {
           height={900}
           objectFit="fill"
         />
-          <button className={styles.button} onClick={() => {
-            router.push("/api/auth/login")
-          }}>
-            <p className={styles.p}>Login or Signup</p>
-          </button>
+        <button
+          className={styles.button}
+          onClick={() => {
+            router.push('/api/auth/login');
+          }}
+        >
+          <p className={styles.p}>Login or Signup</p>
+        </button>
       </div>
     </>
   );

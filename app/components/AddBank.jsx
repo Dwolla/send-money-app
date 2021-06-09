@@ -1,16 +1,13 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
-import { useEffect, useContext } from 'react';
-import { mutate, trigger } from 'swr';
+import { useEffect } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { CustomerContext } from './context/CustomerContext';
 
-export default function AddBank() {
-  const [customerId] = useContext(CustomerContext);
+export default function AddBank({ customerId, setFundingSource }) {
   // Loading the dwolla.js script
   useEffect(() => {
     const script = document.createElement('script');
@@ -36,6 +33,8 @@ export default function AddBank() {
       error: err,
       response: res,
     };
+
+    setFundingSource(true);
   }
 
   // Function that handles calling the dwolla.js function for adding a bank
@@ -49,9 +48,7 @@ export default function AddBank() {
       name: document.getElementById('name').value,
     };
 
-    mutate(`/api/customer-funding-sources/${customerId}`);
     dwolla.fundingSources.create(token, bankInfo, callback);
-    trigger(`/api/customer-funding-sources/${customerId}`);
     return false;
   }
 
