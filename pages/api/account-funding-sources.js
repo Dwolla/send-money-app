@@ -5,5 +5,6 @@ export default async function (req, res) {
   const s = await getSession(req, res);
   if (!s) return res.status(401).json({ error: 'unauthorized' });
   const accountFundingSources = await getAccountFundingSources();
+  // console.log(accountFundingSources._embedded['funding-sources'][0]);
   return res.status(200).json({ accountFundingSources });
 }
