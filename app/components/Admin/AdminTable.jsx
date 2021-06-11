@@ -20,19 +20,28 @@ export default function AdminTable({ customers }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { user } = useUser();
   const { data: info } = useSWR('/api/account-funding-sources', fetcher);
+  const customerId = customers.map((e) => e.id)[2];
+  const res = useSWR(
+    customerId ? `/api/customer-funding-sources/${customerId}` : null,
+    fetcher,
+    {
+      refreshInterval: 60000,
+    }
+  ).data;
+  if (!res) return <p>Loading...</p>;
+  // console.log(
+  //   'res',
+  //   res.customerFundingSources._embedded['funding-sources'].map((ba) => ba.name)
+  // );
+  console.log('res', res);
+  console.log('customers', customers);
+
   // if(info){
   //   console.log("info", info)
   //   {info.accountFundingSources._embedded["funding-sources"].map((d) => {
   //     console.log(d.id)
   //     console.log(d.name)
   //   })}
-  // }
-
-  // const onChangeFS = (e) => {
-  //   const selectedId = e.target.value
-  //   const selectedFS = info.filter((d) => d.id == selectedId);
-  //   console.log("onchange", onChangeFS)
-
   // }
 
   return (
@@ -117,7 +126,13 @@ export default function AdminTable({ customers }) {
                 name="customer-funding-source"
                 id="customer-funding-source"
               >
-                <option value="1">One</option>
+                {res.customerFundingSources._embedded['funding-sources'].map(
+                  (ba) => (
+                    <option key={ba.id} value={ba.id}>
+                      {ba.name}
+                    </option>
+                  )
+                )}
               </select>
             </label>
             <br />
