@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import useSWR from 'swr';
 import { useUser } from '@auth0/nextjs-auth0';
+import axios from 'axios';
 import fetcher from '../../fetcher';
 
 // For Modal accessibility
@@ -20,28 +21,61 @@ export default function AdminTable({ customers }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { user } = useUser();
   const { data: info } = useSWR('/api/account-funding-sources', fetcher);
-  const customerId = customers.map((e) => e.id)[2];
-  const res = useSWR(
-    customerId ? `/api/customer-funding-sources/${customerId}` : null,
-    fetcher,
-    {
-      refreshInterval: 60000,
-    }
-  ).data;
-  if (!res) return <p>Loading...</p>;
-  // console.log(
-  //   'res',
-  //   res.customerFundingSources._embedded['funding-sources'].map((ba) => ba.name)
-  // );
-  console.log('res', res);
-  console.log('customers', customers);
+  // const [customerId, setCustomerId] = useState('');
+  // const [customerFS, setCustomerFS] = useState();
 
-  // if(info){
-  //   console.log("info", info)
-  //   {info.accountFundingSources._embedded["funding-sources"].map((d) => {
-  //     console.log(d.id)
-  //     console.log(d.name)
-  //   })}
+  // async function check_form() {
+  //   console.log('Test 1');
+  //   await sleep(1000);
+  //   console.log('Test 2');
+  // }
+
+  let data;
+
+  async function handleSendMoney(id) {
+    setModalIsOpen(true);
+    // setCustomerId(id);
+    // console.log('e', id);
+
+    data = await axios
+      .get(`/api/customer-funding-sources/${id}`)
+      .then((res) => res.data);
+
+    // console.log('data', data);
+    // setCustomerFS(true);
+
+    // newData = data.map(item => ({[item.country]: item.states}));
+    // setCustomerFS(data.customerFundingSources._embedded["funding-sources"].map(item => {item.id; item.name}))
+
+    // console.log('c', customerFS);
+
+    // console.log(data.customerFundingSources._embedded[
+    //   'funding-sources'
+    // ].map(ba => ba.name))
+
+    // console.log("d", data.customerFundingSources._embedded["funding-sources"])
+
+    // const setCustomerFS = axios.get(
+    //   `/api/customer-funding-sources/${id}`
+    // );
+
+    // console.log("custFS", setCustomerFS)
+  }
+
+  // function custFS() {
+  //   const custInfo = {
+  //     customerId: document.getElementById('customerId').value
+  //   };
+  //   return custInfo;
+  // }
+
+  // const custFS=()=>{
+  //   // console.log(e);
+  //   const customerId = document.getElementById('customerId').value;
+  //   const response = axios.get(
+  //     `/api/customer-funding-sources/${customerId}`
+  //   );
+  //   return response;
   // }
 
   return (
@@ -58,6 +92,7 @@ export default function AdminTable({ customers }) {
             <th>Name</th>
             <th>Email</th>
             <th>Send Money</th>
+            <th style={{ display: 'none' }}>Id</th>
           </tr>
         </thead>
         <tbody>
@@ -71,9 +106,12 @@ export default function AdminTable({ customers }) {
               <td>{c.email}</td>
               <td>
                 {c.sendmoney}
-                <button type="button" onClick={() => setModalIsOpen(true)}>
+                <button type="button" onClick={() => handleSendMoney(c.id)}>
                   Send Money
                 </button>
+              </td>
+              <td id="customerId" style={{ display: 'none' }}>
+                {c.id}
               </td>
             </tr>
           ))}
@@ -126,12 +164,16 @@ export default function AdminTable({ customers }) {
                 name="customer-funding-source"
                 id="customer-funding-source"
               >
-                {res.customerFundingSources._embedded['funding-sources'].map(
-                  (ba) => (
-                    <option key={ba.id} value={ba.id}>
-                      {ba.name}
-                    </option>
-                  )
+                {data && (
+                  <>
+                    {data.customerFundingSources._embedded[
+                      'funding-sources'
+                    ].map((ba) => (
+                      <option key={ba.id} value={ba.id}>
+                        {ba.name}
+                      </option>
+                    ))}
+                  </>
                 )}
               </select>
             </label>
