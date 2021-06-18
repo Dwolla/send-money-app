@@ -10,73 +10,27 @@ import fetcher from '../../fetcher';
 // For Modal accessibility
 Modal.setAppElement('#__next');
 
-// handle submit for form
-const handleSubmit = (event) => {
-  event.preventDefault();
-  // console.log(document.getElementById("account-funding-source").value)
-  // console.log(document.getElementById("customer-funding-source").value)
-};
-
 export default function AdminTable({ customers }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { user } = useUser();
   const { data: info } = useSWR('/api/account-funding-sources', fetcher);
-  // const [customerId, setCustomerId] = useState('');
-  // const [customerFS, setCustomerFS] = useState();
+  const [customerFS, setCustomerFS] = useState();
 
-  // async function check_form() {
-  //   console.log('Test 1');
-  //   await sleep(1000);
-  //   console.log('Test 2');
-  // }
-
-  let data;
-
-  async function handleSendMoney(id) {
+  async function handleModal(id) {
     setModalIsOpen(true);
-    // setCustomerId(id);
-    // console.log('e', id);
-
-    data = await axios
+    const data = await axios
       .get(`/api/customer-funding-sources/${id}`)
       .then((res) => res.data);
-
-    // console.log('data', data);
-    // setCustomerFS(true);
-
-    // newData = data.map(item => ({[item.country]: item.states}));
-    // setCustomerFS(data.customerFundingSources._embedded["funding-sources"].map(item => {item.id; item.name}))
-
-    // console.log('c', customerFS);
-
-    // console.log(data.customerFundingSources._embedded[
-    //   'funding-sources'
-    // ].map(ba => ba.name))
-
-    // console.log("d", data.customerFundingSources._embedded["funding-sources"])
-
-    // const setCustomerFS = axios.get(
-    //   `/api/customer-funding-sources/${id}`
-    // );
-
-    // console.log("custFS", setCustomerFS)
+    setCustomerFS({ ...data.customerFundingSources._embedded });
+    // console.log('customerFS:', customerFS['funding-sources']);
   }
 
-  // function custFS() {
-  //   const custInfo = {
-  //     customerId: document.getElementById('customerId').value
-  //   };
-  //   return custInfo;
-  // }
-
-  // const custFS=()=>{
-  //   // console.log(e);
-  //   const customerId = document.getElementById('customerId').value;
-  //   const response = axios.get(
-  //     `/api/customer-funding-sources/${customerId}`
-  //   );
-  //   return response;
-  // }
+  // handle submit for form
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(document.getElementById("account-funding-source").value)
+    // console.log(document.getElementById("customer-funding-source").value)
+  };
 
   return (
     <Container className="p-3 my-content">
@@ -106,7 +60,7 @@ export default function AdminTable({ customers }) {
               <td>{c.email}</td>
               <td>
                 {c.sendmoney}
-                <button type="button" onClick={() => handleSendMoney(c.id)}>
+                <button type="button" onClick={() => handleModal(c.id)}>
                   Send Money
                 </button>
               </td>
@@ -135,7 +89,10 @@ export default function AdminTable({ customers }) {
           <button
             type="button"
             style={{ background: 'none', float: 'right' }}
-            onClick={() => setModalIsOpen(false)}
+            onClick={() => {
+              setModalIsOpen(false);
+              setCustomerFS();
+            }}
           >
             X
           </button>
@@ -156,27 +113,27 @@ export default function AdminTable({ customers }) {
                 )}
               </select>
             </label>
-
             <br />
+
             <label htmlFor="customer-funding-source">
               To
-              <select
-                name="customer-funding-source"
-                id="customer-funding-source"
-              >
-                {data && (
-                  <>
-                    {data.customerFundingSources._embedded[
-                      'funding-sources'
-                    ].map((ba) => (
+              {customerFS &&
+                (customerFS['funding-sources'].length === 0 ? (
+                  <p>Receiver has no active funding-sources</p>
+                ) : (
+                  <select
+                    name="customer-funding-source"
+                    id="customer-funding-source"
+                  >
+                    {customerFS['funding-sources'].map((ba) => (
                       <option key={ba.id} value={ba.id}>
                         {ba.name}
                       </option>
                     ))}
-                  </>
-                )}
-              </select>
+                  </select>
+                ))}
             </label>
+
             <br />
             <br />
             <label htmlFor="amount">
