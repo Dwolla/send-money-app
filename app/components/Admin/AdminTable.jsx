@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useState } from 'react';
 import Modal from 'react-modal';
 import Container from 'react-bootstrap/Container';
@@ -22,14 +23,30 @@ export default function AdminTable({ customers }) {
       .get(`/api/customer-funding-sources/${id}`)
       .then((res) => res.data);
     setCustomerFS({ ...data.customerFundingSources._embedded });
-    // console.log('customerFS:', customerFS['funding-sources']);
   }
 
   // handle submit for form
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(document.getElementById("account-funding-source").value)
-    // console.log(document.getElementById("customer-funding-source").value)
+    axios
+      .post('/api/initiate-transfer', {
+        source: document.getElementById('account-funding-source').value,
+        destination: document.getElementById('customer-funding-source').value,
+        amount: document.getElementById('amount').value,
+      })
+      .then(
+        (response) => {
+          // eslint-disable-next-line no-alert
+          alert('Transfer successful!');
+          return response;
+        },
+        (error) => {
+          // eslint-disable-next-line no-alert
+          alert('Error: Failed to create a transfer', error);
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+      );
   };
 
   return (
@@ -102,13 +119,13 @@ export default function AdminTable({ customers }) {
               <select name="account-funding-source" id="account-funding-source">
                 {user && info && (
                   <>
-                    {info.accountFundingSources._embedded[
-                      'funding-sources'
-                    ].map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.name}
-                      </option>
-                    ))}
+                    {info.accountFundingSources._embedded['funding-sources']
+                      .filter((d) => d.status === 'verified')
+                      .map((d) => (
+                        <option id="sourceInput" key={d.id} value={d.id}>
+                          {d.name}
+                        </option>
+                      ))}
                   </>
                 )}
               </select>
@@ -126,7 +143,7 @@ export default function AdminTable({ customers }) {
                     id="customer-funding-source"
                   >
                     {customerFS['funding-sources'].map((ba) => (
-                      <option key={ba.id} value={ba.id}>
+                      <option id="destinationInput" key={ba.id} value={ba.id}>
                         {ba.name}
                       </option>
                     ))}

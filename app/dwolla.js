@@ -86,6 +86,26 @@ const createCustomer = async (req) => {
   return res.headers.get('location');
 };
 
+const initiateTransfer = async (req) => {
+  const res = await dwolla.post(`${baseUrl}/transfers`, {
+    _links: {
+      source: {
+        href: `${baseUrl}/funding-sources/${req.source}`,
+      },
+
+      destination: {
+        href: `${baseUrl}/funding-sources/${req.destination}`,
+      },
+    },
+    amount: {
+      currency: 'USD',
+      value: `${req.amount}`,
+    },
+  });
+
+  return res.headers.get('location');
+};
+
 export default dwolla;
 export {
   getAccountDetails,
@@ -97,4 +117,5 @@ export {
   removeBank,
   createFundingSourcesToken,
   createCustomer,
+  initiateTransfer,
 };
