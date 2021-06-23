@@ -1,6 +1,6 @@
-# Dwolla Business to Consumer, Send Funds Flow
+# Dwolla Send Money Starter-kit
 
-This repo contains a Dwolla sample illustrating the [send flow](https://developers.dwolla.com/guides/send-money#send-money-to-your-users), where a Client (business) sends money to its Customers. This project was built using Next.js, React and Auth0.
+This repo contains a Dwolla starter-kit app illustrating the [send flow](https://developers.dwolla.com/guides/send-money#send-money-to-your-users), where a Client (business) sends money to its Customers. This project was built using [Next.js](https://nextjs.org/), [React](https://reactjs.org/) and [Auth0](https://auth0.com/).
 
 ![send-flow](/app/images/funds_flow_send.gif)
 
@@ -53,33 +53,34 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## How to use it
 
-Once you have the app set up and running, you will see a login page. Clicking on the Login/Signup button will trigger the Auth0 flow for login and use authentication.
+Once you have the app set up and running, you will see a login page. Clicking on the Login/Signup button will trigger the [Auth0](https://auth0.com/) flow for login and authentication.
 
 ![auth0-login-scree](/app/images/auth0-login.png)
 
-You can either login as the Admin of the app or a User.
+You can either login as the `Admin` of the app or a `User`.
 
 ### Admin login
 
-If you login using your Sandbox email address, you are taken to the Admin dashboard where you can view a list of your Customers. You can send funds to these Customers who have a bank account attached.
+- If you login using your Sandbox email address, you are taken to the `Admin` dashboard where you can view a list of your Customers. You can send funds to these Customers by clicking on the `Send Money` button.
 
 ![admin-dashboard](/app/images/admin-view.png)
+![admin-send-money-modal](/app/images/send-money-modal.png)
 
-You can navigate to the Settings page to view your Account information.
+- You can navigate to the Settings page to view your Account information.
 
 ![admin-settings](/app/images/account-information.png)
 
 ### User login
 
-If you login using an email other than your Sandbox accouont email, then you are taken the Customer Dashboard where you can create your payment profile. This step will create a Recieve-Only Dwolla Customer account associated with that email.
+- If you login using an email other than your Sandbox account email, then you are taken to the `Customer` Dashboard where you can create your payment profile. This step will create a `Recieve-Only` Dwolla Customer account associated with that email.
 
 ![create-payment-profile](/app/images/create-payment-profile.png)
 
-Once your profile is created, you are taken to the Dashboard view where you are able to view a list all payouts made to you by the Admin.
+- Once your profile is created, you are taken to the Dashboard view where you are able to view a list all payments made to you by the `Admin`.
 
 ![user-dashboard](/app/images/user-dashboard.png)
 
-Navigate to the Settings page to view your Account information and add or remove a bank.
+- Navigate to the Settings page to view your Account information and add or remove a bank.
 
 ![add-remove-bank](/app/images/add-remove-bank.png)
 
