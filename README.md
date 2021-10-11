@@ -31,6 +31,19 @@ DWOLLA_APP_ENV="sandbox"
 ADMIN_EMAIL="YOUR_DWOLLA_ACCOUNT_EMAIL" # This is the email yuo used to sign up for a Sandbox account.
 ```
 
+### Creating the Auth0 Application
+
+1. After creating an [Auth0](https://auth0.com/) account, choose the application type "Regular Web Applications" (Traditional web app using redirects) when creating an application.
+
+2. Select `Next.js` for type of technology
+
+3. Under the settings tab of your newly created application, copy/paste `http://localhost:3000/api/auth/callback` for "Allowed Callback URLs"
+
+4. Copy/Paste `http://localhost:3000/` for "Allowed Logout URLs"
+
+5. Copy/Paste `http://localhost:3000/` for "Allowed Web Origins"
+
+
 ### Developing + Running the project
 
 Run tests

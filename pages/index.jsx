@@ -63,6 +63,7 @@ export default function Index() {
           height={900}
           objectFit="fill"
         />
+
         <button
           className={styles.button}
           onClick={() => {
