@@ -37,7 +37,7 @@ ADMIN_EMAIL="YOUR_DWOLLA_ACCOUNT_EMAIL" # This is the email yuo used to sign up 
 
 2. Select `Next.js` for type of technology
 
-3. Copy/Paste `http://localhost:3000/api/auth/callback` for "Allowed Callback URLs"
+3. Under the settings tab of your newly created application, copy/paste `http://localhost:3000/api/auth/callback` for "Allowed Callback URLs"
 
 4. Copy/Paste `http://localhost:3000/` for "Allowed Logout URLs"
 
