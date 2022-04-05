@@ -28,7 +28,8 @@ DWOLLA_APP_KEY="YOUR_DWOLLA_APP_KEY"
 DWOLLA_APP_SECRET="YOUR_DWOLLA_APP_SECRET"
 DWOLLA_APP_ENV="sandbox"
 
-ADMIN_EMAIL="YOUR_DWOLLA_ACCOUNT_EMAIL" # This is the email yuo used to sign up for a Sandbox account.
+# This is the email you used to sign up for a Sandbox account.
+ADMIN_EMAIL="YOUR_DWOLLA_ACCOUNT_EMAIL"
 ```
 
 ### Creating the Auth0 Application
@@ -42,7 +43,6 @@ ADMIN_EMAIL="YOUR_DWOLLA_ACCOUNT_EMAIL" # This is the email yuo used to sign up 
 4. Copy/Paste `http://localhost:3000/` for "Allowed Logout URLs"
 
 5. Copy/Paste `http://localhost:3000/` for "Allowed Web Origins"
-
 
 ### Developing + Running the project
 
