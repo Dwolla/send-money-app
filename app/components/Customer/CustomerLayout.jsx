@@ -40,12 +40,12 @@ const brandStyle = {
   margin: '35px 0 50px',
 };
 
-export default function CustomerLayout({ children }) {
-  function clearLocalStorage() {
-    // eslint-disable-next-line no-undef
-    localStorage.clear();
-  }
+function clearLocalStorage() {
+  // eslint-disable-next-line no-undef
+  localStorage.clear();
+}
 
+export default function CustomerLayout({ children }) {
   return (
     <div style={layoutStyle}>
       <Navbar style={navbarStyle}>

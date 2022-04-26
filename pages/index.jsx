@@ -31,28 +31,16 @@ export default function Index() {
     localStorage.setItem('userEmail', user.email);
 
     if (user.email === process.env.ADMIN_EMAIL) {
-      return (
-        <>
-          <Redirect to="/admin" />
-        </>
-      );
+      return <Redirect to="/admin" />;
     }
 
-    return (
-      <>
-        <Redirect to="/dashboard" />
-      </>
-    );
+    return <Redirect to="/dashboard" />;
   }
 
   return (
     <>
       <Head>
         <title>Send Money Starter Kit</title>
-        <script
-          type="text/javascript"
-          src="https://cdn.dwolla.com/v2/dwolla-web.js"
-        />
       </Head>
       <Header />
       <div className={styles.landingBlock}>

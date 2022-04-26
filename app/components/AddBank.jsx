@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -38,7 +38,7 @@ export default function AddBank({ customerId, setFundingSource }) {
   }
 
   // Function that handles calling the dwolla.js function for adding a bank
-  async function addBank() {
+  const addBank = useCallback(async () => {
     const token = await asyncFunc();
     dwolla.configure('sandbox');
     const bankInfo = {
@@ -50,7 +50,7 @@ export default function AddBank({ customerId, setFundingSource }) {
 
     dwolla.fundingSources.create(token, bankInfo, callback);
     return false;
-  }
+  }, []);
 
   return (
     <div>

@@ -12,10 +12,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <script
-          type="text/javascript"
-          src="//cdn.dwolla.com/v2/dwolla-web.js"
-        />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
