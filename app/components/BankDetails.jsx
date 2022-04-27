@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { useCallback } from 'react';
 import axios from 'axios';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
@@ -15,10 +16,10 @@ export default function BankDetails({
   setFundingSource,
 }) {
   // Using Axios for POST request to remove bank
-  function removeBank() {
+  const removeBank = useCallback(() => {
     axios.post(`/api/remove-bank/${id}`).then((response) => response);
     setFundingSource(false);
-  }
+  }, []);
 
   return (
     <>

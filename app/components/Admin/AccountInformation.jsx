@@ -10,14 +10,12 @@ export default function AccountInformation() {
   if (!res) return <p>Loading...</p>;
 
   return (
-    <>
-      <ListGroup variant="flush">
-        <ListGroup.Item variant="light">
-          COMPANY NAME: {res.accountDetails.name}
-        </ListGroup.Item>
-        <ListGroup.Item variant="light">EMAIL: {res.email}</ListGroup.Item>{' '}
-        {/* {res.email} represents the email that's logged in to the session */}
-      </ListGroup>
-    </>
+    <ListGroup variant="flush">
+      <ListGroup.Item variant="light">
+        COMPANY NAME: {res.accountDetails.name}
+      </ListGroup.Item>
+      <ListGroup.Item variant="light">EMAIL: {res.email}</ListGroup.Item>{' '}
+      {/* {res.email} represents the email that's logged in to the session */}
+    </ListGroup>
   );
 }

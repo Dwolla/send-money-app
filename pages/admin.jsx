@@ -38,9 +38,7 @@ export default function AdminPage() {
       )}
 
       {user && data && (
-        <>
-          <AdminTable customers={data.customers._embedded.customers} />
-        </>
+        <AdminTable customers={data.customers._embedded.customers} />
       )}
     </AdminLayout>
   );

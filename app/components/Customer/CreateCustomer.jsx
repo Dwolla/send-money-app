@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { useCallback } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -13,34 +14,37 @@ const boxStyle = {
 };
 
 export default function CreateCustomer({ email, setCustomerId }) {
-  function handleSubmit(event) {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
 
-    axios
-      .post('/api/customer', {
-        firstName: `${firstNameInput.value}`,
-        lastName: `${lastNameInput.value}`,
-        email: `${email}`,
-      })
-      .then(
-        (response) => {
-          const location = response.data.token;
-          if (location.substring(12, 19) === 'sandbox') {
-            const id = location.substring(41);
-            setCustomerId(id);
-            localStorage.setItem('userDwollaId', id);
-          } else {
-            const id = location.substring(33);
-            setCustomerId(id);
-            localStorage.setItem('userDwollaId', id);
+      axios
+        .post('/api/customer', {
+          firstName: `${firstNameInput.value}`,
+          lastName: `${lastNameInput.value}`,
+          email: `${email}`,
+        })
+        .then(
+          (response) => {
+            const location = response.data.token;
+            if (location.substring(12, 19) === 'sandbox') {
+              const id = location.substring(41);
+              setCustomerId(id);
+              localStorage.setItem('userDwollaId', id);
+            } else {
+              const id = location.substring(33);
+              setCustomerId(id);
+              localStorage.setItem('userDwollaId', id);
+            }
+          },
+          (error) => {
+            // eslint-disable-next-line no-console
+            console.log('Error: Failed to create a Customer.', error);
           }
-        },
-        (error) => {
-          // eslint-disable-next-line no-console
-          console.log('Error: Failed to create a Customer.', error);
-        }
-      );
-  }
+        );
+    },
+    [email]
+  );
 
   return (
     <>
