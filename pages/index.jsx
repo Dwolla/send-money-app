@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/button-has-type */
-import { useUser } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 

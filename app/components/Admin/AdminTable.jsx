@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import useSWR from 'swr';
-import { useUser } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import fetcher from '../../fetcher';
 
