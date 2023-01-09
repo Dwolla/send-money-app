@@ -2,15 +2,25 @@
 import React from 'react';
 import Head from 'next/head';
 import { UserProvider } from '@auth0/nextjs-auth0';
+import { CacheProvider } from '@emotion/react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import createEmotionCache from '../app/createEmotionCache';
+import theme from '../app/theme';
 
 import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function MyApp({ Component, pageProps }) {
+const clientSideEmotionCache = createEmotionCache();
+
+function MyApp({
+  Component,
+  emotionCache = clientSideEmotionCache,
+  pageProps,
+}) {
   const Layout = Component.Layout ? Component.Layout : React.Fragment;
 
   return (
-    <>
+    <CacheProvider value={emotionCache}>
       <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
@@ -23,12 +33,15 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
 
-      <UserProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </UserProvider>
-    </>
+      <ThemeProvider theme={theme}>
+        <UserProvider>
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </UserProvider>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }
 
