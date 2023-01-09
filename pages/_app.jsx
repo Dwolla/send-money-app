@@ -21,17 +21,7 @@ function MyApp({
 
   return (
     <CacheProvider value={emotionCache}>
-      <Head>
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Blinker:wght@300&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
+      <Head />
 
       <ThemeProvider theme={theme}>
         <UserProvider>

@@ -1,3 +1,4 @@
+import React from 'react';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../app/createEmotionCache';
@@ -8,6 +9,17 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="emotion-insertion-point" content="" />
+
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Blinker:wght@300&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+            rel="stylesheet"
+          />
+
           {this.props.emotionStyleTags}
         </Head>
         <body>
