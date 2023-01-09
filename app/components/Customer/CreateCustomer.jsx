@@ -4,6 +4,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 const boxStyle = {
   margin: '30px 0',
@@ -51,7 +52,7 @@ export default function CreateCustomer({ email, setCustomerId }) {
       <h1>Create your payment profile.</h1>
       <div style={boxStyle}>
         <Form onSubmit={handleSubmit}>
-          <Form.Row>
+          <Row>
             <Form.Group as={Col} md="4" controlId="firstNameInput">
               <Form.Label>First name</Form.Label>
               <Form.Control
@@ -72,7 +73,7 @@ export default function CreateCustomer({ email, setCustomerId }) {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-          </Form.Row>
+          </Row>
 
           <Button variant="primary" type="submit">
             Submit
