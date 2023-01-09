@@ -13,6 +13,11 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^2.0.1",
+    "@emotion/cache": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.3",
     "axios": "^0.27.0",
     "bootstrap": "^5.2.3",
     "dwolla-v2": "^3.4.0",
