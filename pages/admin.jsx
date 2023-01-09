@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
-import { useUser } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import useSWR from 'swr';
 import fetcher from '../app/fetcher';
 import AdminLayout from '../app/components/Admin/AdminLayout';
