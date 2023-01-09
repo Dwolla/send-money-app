@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import Head from 'next/head';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
@@ -21,8 +20,6 @@ function MyApp({
 
   return (
     <CacheProvider value={emotionCache}>
-      <Head />
-
       <ThemeProvider theme={theme}>
         <UserProvider>
           <Layout>
