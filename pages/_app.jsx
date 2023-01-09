@@ -3,7 +3,7 @@ import React from 'react';
 import Head from 'next/head';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { CacheProvider } from '@emotion/react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import createEmotionCache from '../app/createEmotionCache';
 import theme from '../app/theme';
 
@@ -35,7 +35,6 @@ function MyApp({
 
       <ThemeProvider theme={theme}>
         <UserProvider>
-          <CssBaseline />
           <Layout>
             <Component {...pageProps} />
           </Layout>
